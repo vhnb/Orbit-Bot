@@ -20,5 +20,5 @@ async def embed(ctx, *, content):
 async def on_ready():
     print(f'Bot esta on')
 
-bot.run('MTE3MjAwNzE4NTgxNTk4MjEyMA.GSvs-k.6e_Jr1a2z6lLOefs6RZQK7MQlrUg50MV7VlHX0')
+bot.run('secrettoken!')
 
