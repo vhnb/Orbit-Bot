@@ -12,7 +12,7 @@ async def embed(ctx, *, content):
     clean_content = content.replace(f'{bot.user.mention}', '')
     embed = discord.Embed(
         description=clean_content,
-        color=discord.Color.blue()
+        color=discord.Colour(0x47b6b6)
     )
     
     await ctx.send(embed=embed)
@@ -20,16 +20,19 @@ async def embed(ctx, *, content):
 @bot.command(name='ajuda')
 async def help(ctx):
     ajuda = discord.Embed(
-        title="**Comandos Bettet!**",
+        title="**Comandos!**",
         description=(
+            "**- .embed** Irá criar uma embed com o texto desejado.\n"
             "**- .criarc** Irá criar um canal de texto.\n"
             "**- .criarv** Irá criar um canal de voz.\n"
             "**- .apagar** Irá apagar a quantidade de mensagens desejada.\n"
             "**- .ban** Irá banir o membro específico.\n"
             "**- .expulsar** Irá expulsar o membro específico.\n"
-            "**- .user** Irá puxar informações do membro desejado."
+            "**- .user** Irá puxar informações do membro desejado. \n"
+            "**- .addcargo** Irá adicionar um cargo a um membro \n"
+            "**- .remcargo** Irá remover um cargo de um membro"
         ),
-        color=discord.Color.blue()
+        color=discord.Colour(0x47b6b6)
     )
 
     await ctx.send(embed=ajuda)
@@ -80,8 +83,47 @@ async def create_voice_channel(ctx, channel_name):
     else:
         await ctx.send(f'O canal de voz "{channel_name}" já existe.')
 
+@bot.command(name='addcargo')
+async def atribuir_cargo(ctx, membro: discord.Member, cargo_nome: str):
+    if ctx.author.guild_permissions.administrator:
+        cargo = discord.utils.get(ctx.guild.roles, name=cargo_nome)
+
+        if cargo:
+            await membro.add_roles(cargo)
+            await ctx.send(f'O cargo {cargo_nome} foi atribuído a {membro.display_name}.')
+        else:
+            await ctx.send(f'O cargo {cargo_nome} não foi encontrado.')
+
+    else:
+        await ctx.send('Você não tem permissão para usar esse comando.')
+
+@bot.command(name='remcargo')
+async def remover_cargo(ctx, membro: discord.Member, cargo_nome: str):
+    if ctx.author.guild_permissions.administrator:
+        cargo = discord.utils.get(ctx.guild.roles, name=cargo_nome)
+
+        if cargo:
+            await membro.remove_roles(cargo)
+            await ctx.send(f'O cargo {cargo_nome} foi removido de {membro.display_name}.')
+        else:
+            await ctx.send(f'O cargo {cargo_nome} não foi encontrado.')
+    else:
+        await ctx.send('Você não tem permissão para usar esse comando.')
+
+@bot.command(name='ping')
+async def ping(ctx):
+    embed = discord.Embed(
+        title='Pong! 🏓', 
+        description=f'Ping = {round(bot.latency * 1000)} ms',
+        color=discord.Colour(0x47b6b6)
+        )
+    embed.set_footer(text=f'Solicitado por {ctx.author}', icon_url=ctx.author.avatar.url)
+
+    await ctx.reply(embed=embed)
+
 @bot.event
 async def on_ready():
     print(f'Bot esta on')
 
 bot.run('token')
+
