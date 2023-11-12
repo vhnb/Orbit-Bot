@@ -20,17 +20,17 @@ async def embed(ctx, *, content):
 @bot.command(name='ajuda')
 async def help(ctx):
     ajuda = discord.Embed(
-        title="**Comandos!**",
         description=(
-            "**- .embed** Irá criar uma embed com o texto desejado.\n"
-            "**- .criarc** Irá criar um canal de texto.\n"
-            "**- .criarv** Irá criar um canal de voz.\n"
-            "**- .apagar** Irá apagar a quantidade de mensagens desejada.\n"
-            "**- .ban** Irá banir o membro específico.\n"
-            "**- .expulsar** Irá expulsar o membro específico.\n"
-            "**- .user** Irá puxar informações do membro desejado. \n"
-            "**- .addcargo** Irá adicionar um cargo a um membro \n"
-            "**- .remcargo** Irá remover um cargo de um membro"
+            "# Comandos!\n"
+            "``` .embed``` **Irá criar uma embed com o texto desejado.**\n"
+            "```.criarc``` **Irá criar um canal de texto.**\n"
+            "```.criarv``` **Irá criar um canal de voz.**\n"
+            "```.apagar``` **Irá apagar a quantidade de mensagens desejada.**\n"
+            "```.banir``` **Irá banir o membro específico.**\n"
+            "```.expulsar``` **Irá expulsar o membro específico.**\n"
+            "```.info``` **Irá puxar informações do membro desejado.**\n"
+            "```.addcargo``` **Irá adicionar um cargo a um membro.**\n"
+            "```.remcargo``` **Irá remover um cargo de um membro.**"
         ),
         color=discord.Colour(0x47b6b6)
     )
@@ -42,7 +42,7 @@ async def clear(ctx, amount: int):
     await ctx.channel.purge(limit=amount + 1)
     await ctx.send(f'{amount} mensagens foram apagadas por {ctx.author.mention}')
 
-@bot.command(name='ban')
+@bot.command(name='banir')
 @commands.has_permissions(kick_members=True, ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
     await member.ban(reason=reason)
@@ -54,7 +54,7 @@ async def kick(ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
     await ctx.send(f'{member.mention} foi expulso do servidor. **Razão:** {reason}')
 
-@bot.command(name='user')
+@bot.command(name='info')
 async def userinfo(ctx, member: discord.Member = None):
     member = member or ctx.author
     await ctx.send(f'**Nome:** {member.name}\n**Apelido:** {member.display_name}\n**ID:** {member.id}\n**Entrou no Servidor:** {member.joined_at}\n**Conta Criada:** {member.created_at}')
