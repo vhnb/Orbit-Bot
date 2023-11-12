@@ -84,5 +84,4 @@ async def create_voice_channel(ctx, channel_name):
 async def on_ready():
     print(f'Bot esta on')
 
-bot.run('token_secret')
-
+bot.run('token')
