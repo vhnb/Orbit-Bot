@@ -6,34 +6,6 @@ intents.typing = False
 intents.presences = False
 
 bot = commands.Bot(command_prefix='.', intents=intents)
-
-money = {}  # Dicionário para armazenar o dinheiro dos membros
-
-@bot.event
-async def on_message(message):
-    await bot.process_commands(message)  # Certifique-se de processar os comandos
-
-    # Verifica se a mensagem foi enviada em um servidor (guild)
-    if message.guild:
-        author_id = str(message.author.id)
-
-        # Adiciona 30 reais ao dinheiro do autor a cada 50 mensagens
-        if author_id not in money:
-            money[author_id] = 0
-        money[author_id] += 1
-
-        if money[author_id] % 50 == 0:
-            money[author_id] += 30
-            await message.channel.send(f'{message.author.mention} recebeu 30 orbits money por enviar 50 mensagens!')
-
-@bot.command(name='saldo')
-async def check_balance(ctx):
-    author_id = str(ctx.author.id)
-    if author_id in money:
-        await ctx.send(f'Seu saldo atual é de **_{money[author_id]}_** orbits money!')
-    else:
-        await ctx.send('Você ainda não tem um saldo.')
-
     
 @bot.command(name='embed')
 async def embed(ctx, *, content):
